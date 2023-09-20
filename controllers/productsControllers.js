@@ -44,7 +44,7 @@ module.exports = {
           },
         },
       ]);
-      res.status(200).json(product);
+      res.status(200).json(result);
     } catch (error) {
       res.status(500).json("failed to get product");
     }
