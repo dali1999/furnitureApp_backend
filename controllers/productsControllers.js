@@ -49,4 +49,15 @@ module.exports = {
       res.status(500).json("failed to get product");
     }
   },
+  deleteProduct: async (req, res) => {
+    try {
+      const productId = req.params.id;
+
+      await Product.findByIdAndDelete(productId);
+
+      res.status(200).json("product deleted successfully");
+    } catch (error) {
+      res.status(500).json("failed to delete product");
+    }
+  },
 };
