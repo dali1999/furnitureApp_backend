@@ -5,6 +5,7 @@ const app = express();
 const productRouter = require("./routes/products");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
+const cartRouter = require("./routes/cart");
 const port = 3000;
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use("/api/products", productRouter);
 app.use("/api/", authRouter);
 app.use("/api/users", userRouter);
+app.use("/api/carts", cartRouter);
 
 app.listen(process.env.PORT || port, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`)
