@@ -78,7 +78,7 @@ module.exports = {
     const { userId, cartItem } = req.body;
 
     try {
-      const cart = Cart.findOne({ userId });
+      const cart = await Cart.findOne({ userId });
 
       if (!cart) {
         return res.status(404).json("Cart not found");
