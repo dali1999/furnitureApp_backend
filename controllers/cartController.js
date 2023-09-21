@@ -8,7 +8,7 @@ module.exports = {
     try {
       const cart = await Cart.findOne({ userId });
       if (cart) {
-        const existingProduct = cart.find(
+        const existingProduct = cart.products.find(
           (product) => product.cartItem.toString() === cartItem
         );
 
@@ -35,20 +35,20 @@ module.exports = {
         res.status(200).json("Product added to cart");
       }
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({ message: error });
     }
   },
 
   getCart: async (req, res) => {
     const userId = req.params.id;
     try {
-      const cart = await Cart.find({ userId }).popular(
+      const cart = await Cart.find({ userId }).populate(
         "products.cartItem",
         "_id title supplier price imageUrl"
       );
       res.status(200).json(cart);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json({ message: error });
     }
   },
 
@@ -79,6 +79,7 @@ module.exports = {
 
     try {
       const cart = Cart.findOne({ userId });
+
       if (!cart) {
         return res.status(404).json("Cart not found");
       }
@@ -93,7 +94,7 @@ module.exports = {
 
       if (existingProduct.quantity === 1) {
         cart.products = cart.products.filter(
-          (product) => product.cartItem.toString() === cartItem
+          (product) => product.cartItem.toString() !== cartItem
         );
       } else {
         existingProduct.quantity -= 1;
